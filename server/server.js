@@ -1,18 +1,44 @@
 const express = require('express');
-const http = require('http');
+const http = require('https');
 const { Server } = require('socket.io');
 const cors = require('cors');
+const fs = require("fs")
 
 const app = express();
-app.use(cors());
 
-const server = http.createServer(app);
+const corsOptions = {
+  origin: '*', // Allow all origins
+  methods: ['GET', 'POST'], // Specify allowed methods
+  allowedHeaders: ['Content-Type', 'Authorization'] // Specify allowed headers
+};
+
+app.use(cors(corsOptions));
+
+const options = {
+  key: fs.readFileSync("../ssl/key.pem"),
+  cert: fs.readFileSync("../ssl/cert.pem"),
+}
+
+const server = http.createServer(options, app);
 const io = new Server(server, {
   cors: {
     origin: '*',
     methods: ['GET', 'POST']
   }
 });
+
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
+
+  next();
+});
+
 
 // Store online users
 const onlineUsers = new Map();

@@ -17,15 +17,11 @@ const configuration = {
 
 // Socket.io connection
 let socket;
-
-// ===== COMPONENTS =====
-
 const App = () => {
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
-    // Initialize socket connection
-    socket = io('http://0.0.0.0:3001');
+    socket = io('https://192.168.196.89:3001');
     
     socket.on('connect', () => {
       console.log('Connected to signaling server');
