@@ -8,7 +8,6 @@ function App() {
   const [user, setUser] = useState(null);
   
   useEffect(() => {
-    // Try to get user from local storage
     const savedUser = localStorage.getItem('chatUser');
     if (savedUser) {
       setUser(JSON.parse(savedUser));

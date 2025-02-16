@@ -18,8 +18,6 @@ function ChatRoom({ user, onLogout }) {
     socket.on('message', (message) => {
       setMessages((prevMessages) => [...prevMessages, message]);
       
-      // Show notification if the window is not focused and message is not from current user
-      // and not the same user as the last notification
       if (document.hidden && 
           message.userId !== user.id && 
           message.userId !== 'system' &&
@@ -29,19 +27,16 @@ function ChatRoom({ user, onLogout }) {
       }
     });
     
-    // Listen for user list updates
     socket.on('users', (userList) => {
       setUsers(userList);
     });
     
-    // Cleanup
     return () => {
       socket.off('message');
       socket.off('users');
     };
   }, [user.id, socket, lastNotifiedUser]);
 
-  // Reset last notified user when window gets focus
   useEffect(() => {
     const handleFocus = () => {
       setLastNotifiedUser(null);

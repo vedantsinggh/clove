@@ -16,7 +16,7 @@ function MessageList({ messages, currentUserId }) {
       {messages.map((message) => (
         <div 
           key={message.id} 
-          className={`message ${message.userId === currentUserId ? 'own-message' : 'other-message'}`}
+          className={`message ${message.userId === currentUserId ? 'own-message' : message.username === "System" ? ( message.text.includes("left") ? "left" : "system"): 'other-message'}`}
         >
           <div className="message-header">
             <span className="username">{message.userId === currentUserId ? 'You' : message.username}</span>
