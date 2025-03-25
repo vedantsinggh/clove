@@ -3,9 +3,11 @@ import './App.css';
 import Login from './components/Login';
 import ChatRoom from './components/ChatRoom';
 import { initializeSocket } from './utils/socketService';
+import { getSocket } from './utils/socketService';
 
 function App() {
   const [user, setUser] = useState(null);
+  const socket = getSocket();
   
   useEffect(() => {
     const savedUser = localStorage.getItem('chatUser');
@@ -23,6 +25,7 @@ function App() {
 
   const handleLogout = () => {
     localStorage.removeItem('chatUser');
+    socket.emit("logout");
     setUser(null);
   };
 

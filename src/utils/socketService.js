@@ -6,10 +6,7 @@ export const initializeSocket = () => {
   if (!socket) {
     socket = io(SERVER_URL);
     const user = JSON.parse(localStorage.getItem('chatUser'));
-    if (user) {
-      socket.emit('join', user);
-    }
-    
+
     socket.on('connect', () => {
       console.log('Connected to server');
       const user = JSON.parse(localStorage.getItem('chatUser'));

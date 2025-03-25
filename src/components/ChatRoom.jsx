@@ -14,6 +14,8 @@ function ChatRoom({ user, onLogout }) {
 
   useEffect(() => {
     if (!socket) return;
+
+    
     
     socket.on('message', (message) => {
       setMessages((prevMessages) => [...prevMessages, message]);
